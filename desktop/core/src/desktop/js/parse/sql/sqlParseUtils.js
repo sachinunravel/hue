@@ -756,6 +756,7 @@ export const initSyntaxParser = parser => {
     parser.yy.caseDetermined = false;
     parser.yy.error = undefined;
 
+    parser.yy.literal=[];
     parser.yy.latestTablePrimaries = [];
     parser.yy.subQueries = [];
     parser.yy.selectListAliases = [];
@@ -851,5 +852,31 @@ export const initSyntaxParser = parser => {
       return parser.yy.error;
     }
     return false;
+  };
+
+  parser.getLiterals = (beforeCursor, afterCursor, debug) => {
+    parser.yy.caseDetermined = false;
+    parser.yy.error = undefined;
+
+    parser.yy.literal=[];
+    parser.yy.latestTablePrimaries = [];
+    parser.yy.subQueries = [];
+    parser.yy.selectListAliases = [];
+    parser.yy.latestTablePrimaries = [];
+
+    parser.yy.activeDialect = 'generic';
+
+    // TODO: Find a way around throwing an exception when the parser finds a syntax error
+    try {
+      parser.yy.error = false;
+      parser.parse(beforeCursor + afterCursor);
+    } catch (err) {
+      if (debug) {
+        console.warn(err);
+        console.warn(err.stack);
+        console.warn(parser.yy.error);
+      }
+    }
+    return parser.yy.literal;
   };
 };

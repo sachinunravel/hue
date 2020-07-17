@@ -142,9 +142,9 @@ LEAD\s*\(                                  { yy.lexer.unput('('); yytext = 'lead
 RANK\s*\(                                  { yy.lexer.unput('('); yytext = 'rank'; parser.addFunctionLocation(yylloc, yytext); return 'ANALYTIC'; }
 ROW_NUMBER\s*\(                            { yy.lexer.unput('('); yytext = 'row_number'; parser.addFunctionLocation(yylloc, yytext); return 'ANALYTIC'; }
 
-[0-9]+                                     { return 'UNSIGNED_INTEGER'; }
-[0-9]+(?:[YSL]|BD)?                        { return 'UNSIGNED_INTEGER'; }
-[0-9]+E                                    { return 'UNSIGNED_INTEGER_E'; }
+[0-9]+                                     { return 'UNSIGNED_INTEGER'; } //parser.yy.literal.push(yylloc);return 'UNSIGNED_INTEGER'; }
+[0-9]+(?:[YSL]|BD)?                        { return 'UNSIGNED_INTEGER'; } //parser.yy.literal.push(yylloc);return 'UNSIGNED_INTEGER'; }
+[0-9]+E                                    { return 'UNSIGNED_INTEGER_E'; } //parser.yy.literal.push(yylloc);return 'UNSIGNED_INTEGER_E'; }
 [A-Za-z0-9_]+                              { return 'REGULAR_IDENTIFIER'; }
 
 <hdfs>'\u2020'                             { parser.yy.cursorFound = true; return 'CURSOR'; }

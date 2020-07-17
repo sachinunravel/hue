@@ -103,7 +103,11 @@ describe('genericSyntaxParser.js', () => {
 
   it('should find errors for "select *  form "', () => {
     const result = genericSyntaxParser.parseSyntax('select *  form ', '');
-
+    
+    const result1 = genericSyntaxParser.getLiterals('select *  from tb1 where c1=201 and c2=34.10;'+'');
+    //console.log(JSON.stringify(genericSyntaxparser.yy))
+    console.log(JSON.stringify(result1))
+    //console.log(result1.yy)
     expect(result).toBeTruthy();
     expect(result.loc.first_column).toEqual(10);
     expect(result.loc.last_column).toEqual(14);
