@@ -1,1 +1,0 @@
-workflow-mapreduce.xml.mako
