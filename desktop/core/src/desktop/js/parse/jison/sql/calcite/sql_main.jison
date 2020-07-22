@@ -1580,10 +1580,10 @@ UnsignedNumericLiteral
  ;
 
 ExactNumericLiteral
- : 'UNSIGNED_INTEGER'
- | 'UNSIGNED_INTEGER' '.'                     -> $1 + $2
- | 'UNSIGNED_INTEGER' '.' 'UNSIGNED_INTEGER'  -> $1 + $2 + $3
- | '.' 'UNSIGNED_INTEGER'                     -> $1 + $2
+ : 'UNSIGNED_INTEGER'                         -> parser.yy.literal.push(@1); $1
+ | 'UNSIGNED_INTEGER' '.'                     -> parser.yy.literal.push({"first_column": @1.first_column, "last_column": @2.last_column});  $1 + $2
+ | 'UNSIGNED_INTEGER' '.' 'UNSIGNED_INTEGER'  -> parser.yy.literal.push({"first_column": @1.first_column, "last_column": @3.last_column});  $1 + $2 + $3
+ | '.' 'UNSIGNED_INTEGER'                     -> parser.yy.literal.push({"first_column": @1.first_column, "last_column": @2.last_column});  $1 + $2
  ;
 
 ApproximateNumericLiteral
@@ -1595,6 +1595,7 @@ ApproximateNumericLiteral
 GeneralLiteral
  : SingleQuotedValue
    {
+     parser.yy.literal.push(@1);
      if (/\$\{[^}]*\}/.test($1)) {
        parser.addVariableLocation(@1, $1);
        $$ = { types: [ 'STRING' ], columnReference: [{ name: $1 }], text: "'" + $1 + "'" }
@@ -1604,6 +1605,7 @@ GeneralLiteral
    }
  | DoubleQuotedValue
    {
+     parser.yy.literal.push(@1);
      if (/\$\{[^}]*\}/.test($1)) {
        parser.addVariableLocation(@1, $1);
        $$ = { types: [ 'STRING' ], columnReference: [{ name: $1 }], text: '"' + $1 + '"' }

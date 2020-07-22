@@ -1,0 +1,5 @@
+
+> hue_dep@1.0.0 app /root/sachin/test_parsers/hue/tools/parser/hue_dep
+> node dist/app.js
+
+Example app listening at http://:::8081
