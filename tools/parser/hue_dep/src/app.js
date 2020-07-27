@@ -54,8 +54,9 @@ function GetSortOrder(prop) {
 }  
 app.use(express.json())
 app.post('/parseQuery', function (req, res) {
-
-  console.log(req.body);
+  
+  var start = Date.now();
+  //console.log(req.body);
   //console.log("Parsers ========>" + process.argv[2])
   var parser = parsers[req.body.parser]
   //var loc1=parser.parseSyntax("select c1, `values` from tbl1", '');
@@ -82,11 +83,14 @@ app.post('/parseQuery', function (req, res) {
         //query=query.replace(lit, "?")
          query=query.substring(0, eloc.first_column) + "?" + query.substring(eloc.last_column, query.length)
         });
+        query=query.replace(/(\?,)+/g, '?').replace(/(\?)+/g, '?');
+        var query_hashcode=hashcode(query.replace(/ +/g, "").replace(/;/g, ""))
+    
+        res.send({"parsed_query": query, "hashcode": query_hashcode, "time_taken": Date.now() - start})
+    } else {
+        res.send({"parsed_query": query, "hashcode": -1, "time_taken": Date.now() - start})
     }
     
-    query=query.replace(/(\?,)+/g, '?').replace(/(\?)+/g, '?');
-    var query_hashcode=hashcode(query.replace(/ +/g, "").replace(/;/g, ""))
-    res.send({"parsed_query": query, "hashcode": query_hashcode})
         
     //   });
      // console.log(query)

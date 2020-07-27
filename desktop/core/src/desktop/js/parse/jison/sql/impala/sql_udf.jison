@@ -381,6 +381,8 @@ OtherAggregateFunction_Type
  | 'MAX'
  | 'MIN'
  | 'NDV'
+ | 'LENGTH'
+ | 'NDV_NO_FINALIZE'
  | 'VARIANCE'
  | 'VARIANCE_POP'
  | 'VARIANCE_SAMP'

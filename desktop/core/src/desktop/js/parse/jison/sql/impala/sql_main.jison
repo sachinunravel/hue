@@ -341,6 +341,8 @@ NonStartingToken
  | 'NCHAR'
  | 'NCLOB'
  | 'NDV'
+ | 'LENGTH'
+ | 'NDV_NO_FINALIZE'
  | 'NO'
  | 'NONE'
  | 'NORMALIZE'
